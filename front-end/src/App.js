@@ -9,9 +9,10 @@ function App() {
     name:"",
     number:"",
     email:"",
-    image:"",
+    image:null,
     bio:"",
-    experiences:""
+    YOE:0,
+    resume:null
   })
   return (
     <div className="App" style={{
@@ -54,9 +55,10 @@ function App() {
           }
         }))
       }} />
+          <ProfileImageUpload setProfile={setProfile}/>
     </form>
 
-    <ProfileImageUpload/>
+
     </div>
   );
 }
