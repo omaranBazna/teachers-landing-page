@@ -8,12 +8,10 @@ import rtlPlugin from 'stylis-plugin-rtl';
 import { prefixer } from 'stylis';
 import 'react-phone-input-2/lib/style.css';
 import PhoneInput from 'react-phone-input-2';
-
-import Select from 'react-select'
-import countryList from 'react-select-country-list'
-
-
-
+import Select from '@mui/material/Select';
+import { MenuItem } from '@mui/material';
+import { countries } from './countries';
+import { arabic_countries } from './countries';
 const cacheRtl = createCache({
     key: 'mui-rtl',
     stylisPlugins: [prefixer, rtlPlugin],
@@ -26,8 +24,12 @@ const cacheRtl = createCache({
 
 const Pages = ({index,profile,setProfile})=>{
     const [phone, setPhone] = useState('');
-    const [value, setValue] = useState('')
-  const options = useMemo(() => countryList().getData(), [])
+    const [value, setValue] = useState('');
+    const [country,setCountry] = useState('');
+
+    const handleChangeCountry = (e)=>{
+      setCountry(e.target.value);
+    }
 
   const changeHandler = value => {
     setValue(value)
@@ -65,14 +67,44 @@ const Pages = ({index,profile,setProfile})=>{
         </div>
       </ThemeProvider>
     </CacheProvider>
-
+ 
+    <div> <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={country}
+          label="Country"
+          onChange={handleChangeCountry}
+          sx={{
+            width:250,
+            display:"flex",
+            justifyContent:"space-between"
+          }}
+        >
+        {Object.keys(arabic_countries).map(key=>{
+          return <MenuItem 
+          sx={{
+            display:"flex",
+            justifyContent:"space-between",
+            alignItems:"center",
+            gap:2
+          }}
+          dir='rtl' value={key}>
+            <span>{arabic_countries[key]}</span>
+            <img width={32} src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${key}.svg`}
+            />
+            </MenuItem>
+        })}
+         
+        </Select>
+</div>
+   
        <PhoneInput
       country={'sa'}
       value={phone}
       onChange={(phone) => setPhone(phone)}
       inputStyle={{ width: '100%' }}
     />
-    <Select options={options} value={value} onChange={changeHandler} />
+    
           <ProfileImageUpload setProfile={setProfile}/>
     </form>
     </>
